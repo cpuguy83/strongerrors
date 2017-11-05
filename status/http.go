@@ -6,10 +6,10 @@ import (
 	"github.com/cpuguy83/errclass"
 )
 
-// HTTPStatus takes an error and returns the HTTP status code for the given error
+// HTTPCode takes an error and returns the HTTP status code for the given error
 // If a match is found then the second return argument will be true, otherwise it will be false.
 // nolint: gocyclo
-func HTTPStatus(err error) (int, bool) {
+func HTTPCode(err error) (int, bool) {
 	switch {
 	case errclass.IsNotFound(err):
 		return http.StatusNotFound, true
