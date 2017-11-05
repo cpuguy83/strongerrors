@@ -49,6 +49,13 @@ func TestNotModified(t *testing.T) {
 	}
 }
 
+func TestAlreadyExists(t *testing.T) {
+	e := AlreadyExists(errTest)
+	if !IsAlreadyExists(e) {
+		t.Fatalf("expected already exists error, got %T", e)
+	}
+}
+
 func TestUnauthorized(t *testing.T) {
 	e := Unauthorized(errTest)
 	if !IsUnauthorized(e) {
@@ -56,9 +63,44 @@ func TestUnauthorized(t *testing.T) {
 	}
 }
 
+func TestIsUnauthenticated(t *testing.T) {
+	e := Unauthenticated(errTest)
+	if !IsUnauthenticated(e) {
+		t.Fatalf("expected unauthenticated error, got %T", e)
+	}
+}
+
 func TestUnknown(t *testing.T) {
 	e := Unknown(errTest)
 	if !IsUnknown(e) {
 		t.Fatalf("expected unknown error, got %T", e)
+	}
+}
+
+func TestCancelled(t *testing.T) {
+	e := Cancelled(errTest)
+	if !IsCancelled(e) {
+		t.Fatalf("expected canclled error, got %T", e)
+	}
+}
+
+func TestDeadline(t *testing.T) {
+	e := Deadline(errTest)
+	if !IsDeadline(e) {
+		t.Fatalf("expected deadline error, got %T", e)
+	}
+}
+
+func TestExhausted(t *testing.T) {
+	e := Exhausted(errTest)
+	if !IsExhausted(e) {
+		t.Fatalf("expected exhausted error, got %T", e)
+	}
+}
+
+func TestIsDataLoss(t *testing.T) {
+	e := DataLoss(errTest)
+	if !IsDataLoss(e) {
+		t.Fatalf("expected data loss error, got %T", e)
 	}
 }
