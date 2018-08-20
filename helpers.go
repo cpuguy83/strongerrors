@@ -241,7 +241,7 @@ func Exhausted(err error) error {
 
 type errDataLoss struct{ error }
 
-func (errDataLoss) DataLos() {}
+func (errDataLoss) DataLoss() {}
 
 func (e errDataLoss) Cause() error {
 	return e.error
