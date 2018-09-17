@@ -20,4 +20,4 @@
 #  name = "github.com/x/y"
 #  version = "2.4.0"
 
-ignored = ["github.com/cpuguy83/errclass/status"]
+ignored = ["github.com/cpuguy83/strongerrors/status"]

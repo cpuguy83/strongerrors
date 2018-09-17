@@ -1,4 +1,4 @@
-// Package errclass defines a set of error interfaces that packages should use for communicating classes of errors.
+// Package strongerrors defines a set of error interfaces that packages should use for communicating classes of errors.
 // Errors that cross the package boundary should implement one (and only one) of these interfaces.
 //
 // Packages should not reference these interfaces directly, only implement them.
@@ -9,4 +9,4 @@
 // A set of helper functions are provided to take any error and turn it into a specific error class.
 // This frees you from defining the same error classes all over your code. However, you can still
 // implement the error classes ony our own if you desire.
-package errclass
+package strongerrors

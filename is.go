@@ -1,4 +1,4 @@
-package errclass
+package strongerrors
 
 type causer interface {
 	Cause() error

@@ -1,7 +1,7 @@
 package status
 
 import (
-	"github.com/cpuguy83/errclass"
+	"github.com/cpuguy83/strongerrors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -16,30 +16,30 @@ func FromGRPC(s *status.Status) error {
 
 	switch s.Code() {
 	case codes.InvalidArgument:
-		return errclass.InvalidArgument(s.Err())
+		return strongerrors.InvalidArgument(s.Err())
 	case codes.NotFound:
-		return errclass.NotFound(s.Err())
+		return strongerrors.NotFound(s.Err())
 	case codes.Unimplemented:
-		return errclass.NotImplemented(s.Err())
+		return strongerrors.NotImplemented(s.Err())
 	case codes.DeadlineExceeded:
-		return errclass.Deadline(s.Err())
+		return strongerrors.Deadline(s.Err())
 	case codes.Canceled:
-		return errclass.Cancelled(s.Err())
+		return strongerrors.Cancelled(s.Err())
 	case codes.AlreadyExists:
-		return errclass.AlreadyExists(s.Err())
+		return strongerrors.AlreadyExists(s.Err())
 	case codes.PermissionDenied:
-		return errclass.Unauthorized(s.Err())
+		return strongerrors.Unauthorized(s.Err())
 	case codes.Unauthenticated:
-		return errclass.Unauthenticated(s.Err())
+		return strongerrors.Unauthenticated(s.Err())
 	// TODO(cpuguy83): consider more granular errors for these cases
 	case codes.FailedPrecondition, codes.Aborted, codes.Unavailable, codes.OutOfRange:
-		return errclass.Conflict(s.Err())
+		return strongerrors.Conflict(s.Err())
 	case codes.ResourceExhausted:
-		return errclass.Exhausted(s.Err())
+		return strongerrors.Exhausted(s.Err())
 	case codes.DataLoss:
-		return errclass.DataLoss(s.Err())
+		return strongerrors.DataLoss(s.Err())
 	default:
-		return errclass.Unknown(s.Err())
+		return strongerrors.Unknown(s.Err())
 	}
 }
 
@@ -53,31 +53,31 @@ func ToGRPC(err error) error {
 	}
 
 	switch {
-	case errclass.IsNotFound(err):
+	case strongerrors.IsNotFound(err):
 		return status.Error(codes.NotFound, err.Error())
-	case errclass.IsConflict(err), errclass.IsNotModified(err):
+	case strongerrors.IsConflict(err), strongerrors.IsNotModified(err):
 		return status.Error(codes.FailedPrecondition, err.Error())
-	case errclass.IsInvalidArgument(err):
+	case strongerrors.IsInvalidArgument(err):
 		return status.Error(codes.InvalidArgument, err.Error())
-	case errclass.IsAlreadyExists(err):
+	case strongerrors.IsAlreadyExists(err):
 		return status.Error(codes.AlreadyExists, err.Error())
-	case errclass.IsCancelled(err):
+	case strongerrors.IsCancelled(err):
 		return status.Error(codes.Canceled, err.Error())
-	case errclass.IsDeadline(err):
+	case strongerrors.IsDeadline(err):
 		return status.Error(codes.DeadlineExceeded, err.Error())
-	case errclass.IsUnauthorized(err):
+	case strongerrors.IsUnauthorized(err):
 		return status.Error(codes.PermissionDenied, err.Error())
-	case errclass.IsUnauthenticated(err):
+	case strongerrors.IsUnauthenticated(err):
 		return status.Error(codes.Unauthenticated, err.Error())
-	case errclass.IsForbidden(err), errclass.IsNotImplemented(err):
+	case strongerrors.IsForbidden(err), strongerrors.IsNotImplemented(err):
 		return status.Error(codes.Unimplemented, err.Error())
-	case errclass.IsExhausted(err):
+	case strongerrors.IsExhausted(err):
 		return status.Error(codes.ResourceExhausted, err.Error())
-	case errclass.IsDataLoss(err):
+	case strongerrors.IsDataLoss(err):
 		return status.Error(codes.DataLoss, err.Error())
-	case errclass.IsSystem(err):
+	case strongerrors.IsSystem(err):
 		return status.Error(codes.Internal, err.Error())
-	case errclass.IsUnavailable(err):
+	case strongerrors.IsUnavailable(err):
 		return status.Error(codes.Unavailable, err.Error())
 	default:
 		return status.Error(codes.Unknown, err.Error())

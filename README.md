@@ -1,4 +1,4 @@
-# errclass
+# strongerrors
 A simple Go package for defining common error classes.
 
 Commonly in go applications you either end up defining lots of custom, seminal errors or even custom error types and checking directly against those types. A problem with this pattern is it becomes difficult to wrap errors with extra context without masking the underlying error and potentially causing an error check to miss. The [errors package](https://github.com/pkg/errors) helps to solve some of this where you can use the `errors.Wrap` pattern to wrap errors and then `errors.Cause()` to traverse the causal chain. Unfortunately there still exists a problem of requiring deep knowledge and reliance on underlying packages that you may not even control in order to check errors against.

@@ -1,4 +1,4 @@
-package errclass
+package strongerrors
 
 // ErrNotFound signals that the requested object doesn't exist
 type ErrNotFound interface {

@@ -3,7 +3,7 @@ package status
 import (
 	"net/http"
 
-	"github.com/cpuguy83/errclass"
+	"github.com/cpuguy83/strongerrors"
 )
 
 // HTTPCode takes an error and returns the HTTP status code for the given error
@@ -11,25 +11,25 @@ import (
 // nolint: gocyclo
 func HTTPCode(err error) (int, bool) {
 	switch {
-	case errclass.IsNotFound(err):
+	case strongerrors.IsNotFound(err):
 		return http.StatusNotFound, true
-	case errclass.IsInvalidArgument(err):
+	case strongerrors.IsInvalidArgument(err):
 		return http.StatusBadRequest, true
-	case errclass.IsConflict(err):
+	case strongerrors.IsConflict(err):
 		return http.StatusConflict, true
-	case errclass.IsUnauthenticated(err), errclass.IsForbidden(err):
+	case strongerrors.IsUnauthenticated(err), strongerrors.IsForbidden(err):
 		return http.StatusForbidden, true
-	case errclass.IsUnauthorized(err):
+	case strongerrors.IsUnauthorized(err):
 		return http.StatusUnauthorized, true
-	case errclass.IsUnavailable(err):
+	case strongerrors.IsUnavailable(err):
 		return http.StatusServiceUnavailable, true
-	case errclass.IsForbidden(err):
+	case strongerrors.IsForbidden(err):
 		return http.StatusForbidden, true
-	case errclass.IsAlreadyExists(err), errclass.IsNotModified(err):
+	case strongerrors.IsAlreadyExists(err), strongerrors.IsNotModified(err):
 		return http.StatusNotModified, true
-	case errclass.IsNotImplemented(err):
+	case strongerrors.IsNotImplemented(err):
 		return http.StatusNotImplemented, true
-	case errclass.IsSystem(err) || errclass.IsUnknown(err) || errclass.IsDataLoss(err) || errclass.IsExhausted(err):
+	case strongerrors.IsSystem(err) || strongerrors.IsUnknown(err) || strongerrors.IsDataLoss(err) || strongerrors.IsExhausted(err):
 		return http.StatusInternalServerError, true
 	default:
 		return http.StatusInternalServerError, false
