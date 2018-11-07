@@ -35,3 +35,37 @@ func HTTPCode(err error) (int, bool) {
 		return http.StatusInternalServerError, false
 	}
 }
+
+// FromHTTPCode wraps the passed in error in a strong error based on the passed in
+// http status code.
+//
+// If the http status code is < 300, the original error is returned.
+// If the passed in error is nil, the returned error will be nil.
+// If the status code does not match a known code the error will be wrapped in
+// an `Unknown` error.
+func FromHTTPResponse(httpCode int, err error) error {
+	if httpCode < 300 || err == nil {
+		return err
+	}
+
+	switch httpCode {
+	case http.StatusNotFound:
+		return strongerrors.NotFound(err)
+	case http.StatusBadRequest:
+		return strongerrors.InvalidParameter(err)
+	case http.StatusConflict:
+		return strongerrors.Conflict(err)
+	case http.StatusForbidden:
+		return strongerrors.Forbidden(err)
+	case http.StatusUnauthorized:
+		return strongerrors.Unauthorized(err)
+	case http.StatusUnavailable:
+		return strongerrors.Unavailable(err)
+	case http.StatusNotModified:
+		return strongerrors.NotModified(err)
+	case http.StatusNotImplemented:
+		return strongerrors.NotImplemented(err)
+	default:
+		return strongerrors.Unknown(err)
+	}
+}
